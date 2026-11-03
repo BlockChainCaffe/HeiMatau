@@ -1,5 +1,5 @@
 (() => {
-  const U = globalThis.LinkGuardUrl;
+  const U = globalThis.HeiMatauUrl;
   if (!U) return;
 
   const XLINK = 'http://www.w3.org/1999/xlink';
@@ -203,11 +203,12 @@
     .quote { color: #3c4043; font-style: italic; word-break: break-word; }
     .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 12px; }
     .chip { padding: 2px 8px; border: 1px solid #dadce0; border-radius: 999px; background: #f8f9fa;
-            color: #3c4043; font-size: 11px; line-height: 1.5; }
+            color: #3c4043; font-size: 11px; line-height: 1.5; min-height: 24px; }
     .chip.danger { border-color: #fca5a5; background: #fef2f2; color: #991b1b; }
     .chip.warn { border-color: #fcd34d; background: #fffbeb; color: #92400e; }
     .chip.info { border-color: #93c5fd; background: #eff6ff; color: #1e40af; }
-    .warn { margin: 12px 0; padding: 10px 12px; border: 1px solid; border-radius: 8px; }
+    .danger { margin: 12px 0; padding: 10px 12px; border: 1px solid; border-radius: 8px;}
+    .warn { margin: 12px 0; padding: 10px 12px; border: 1px solid; border-radius: 8px;}
     .warn strong { display: block; margin-bottom: 3px; }
     .warn p { margin: 4px 0; }
     .warn .field { margin: 8px 0 0; }
@@ -318,7 +319,7 @@
       ? document.activeElement
       : null;
 
-    popupHost = document.createElement('link-guard-dialog');
+    popupHost = document.createElement('hei-matau-dialog');
     popupHost.style.cssText = 'all:initial!important;position:fixed!important;inset:0!important;z-index:2147483647!important;display:block!important;';
     const shadow = popupHost.attachShadow({ mode: 'closed' });
     const sheet = new CSSStyleSheet();

@@ -1,6 +1,6 @@
-# Link Guard
+# Hei Matau
 
-Link Guard protects webmail and other sensitive sites from phishing links. You list the sites you want to protect. On those sites, any link that points outside the protected host is blocked and shown in a decision popup.
+Hei Matau protects webmail and other sensitive sites from phishing links. You list the sites you want to protect. On those sites, any link that points outside the protected host is blocked and shown in a decision popup.
 
 The extension never opens the link. It only lets you inspect the destination, copy the original link, or copy a cleaned link.
 
@@ -8,7 +8,7 @@ The extension never opens the link. It only lets you inspect the destination, co
 
 1. Extract the ZIP file.
 2. Open `brave://extensions` or `chrome://extensions` and enable **Developer mode**.
-3. Click **Load unpacked** and select the `LinkGuard` folder.
+3. Click **Load unpacked** and select the `Hei Matau` folder.
 4. Click the extension icon to open the settings and add your protected sites.
 
 ## Behavior
@@ -23,7 +23,7 @@ The extension never opens the link. It only lets you inspect the destination, co
 
 ## Redirects and Gmail
 
-Gmail links often point to `https://www.google.com/url?q=<real-url>` and include a `data-saferedirecturl` attribute. Link Guard unwraps Google redirects and similar wrappers (Outlook SafeLinks, Facebook, LinkedIn, Proofpoint, and others) before deciding whether a link is external.
+Gmail links often point to `https://www.google.com/url?q=<real-url>` and include a `data-saferedirecturl` attribute. Hei Matau unwraps Google redirects and similar wrappers (Outlook SafeLinks, Facebook, LinkedIn, Proofpoint, and others) before deciding whether a link is external.
 
 This matters because a link to `https://www.google.com/url?q=https://evil.example` must be evaluated as `evil.example`, not as `www.google.com`.
 
@@ -31,7 +31,7 @@ If the final destination cannot be determined, for example because the link uses
 
 ## Unicode and homograph warning
 
-Hostnames that use internationalized characters are stored by browsers as punycode (`xn--...`). Link Guard decodes them for display and checks for:
+Hostnames that use internationalized characters are stored by browsers as punycode (`xn--...`). Hei Matau decodes them for display and checks for:
 
 - mixed scripts inside the hostname, such as Latin and Cyrillic;
 - confusable characters that look like Latin letters;
@@ -77,9 +77,9 @@ The repository includes `test-page.html`, a page with links for every supported 
    http://127.0.0.1:8000/test-page.html
    ```
 
-3. Open the Link Guard settings and add the host shown on the test page. With the command above, add `127.0.0.1`. Do not include the port.
+3. Open the Hei Matau settings and add the host shown on the test page. With the command above, add `127.0.0.1`. Do not include the port.
 4. Reload the test page.
-5. Click each external test link. Every external link should be blocked with the Link Guard popup. Internal control links should reload the page without a popup.
+5. Click each external test link. Every external link should be blocked with the Hei Matau popup. Internal control links should reload the page without a popup.
 6. Repeat the basic checks with normal click, middle click, Ctrl/Cmd-click, Enter on a focused link, right-click, and drag-and-drop.
 7. Submit the external test form. It should show “Form submission blocked” and must not send the form.
 8. Check the popup content for each case:

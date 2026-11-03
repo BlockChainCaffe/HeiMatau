@@ -1,27 +1,30 @@
-Miglioramenti che aggiungerei
+Improvements I would add
 
-Più utili nell’uso quotidiano
+More useful in daily use
 
-Popup nella toolbar al posto della pagina opzioni: interruttore on/off, pulsante “aggiungi il sito corrente” e un contatore dei link bloccati. È la modifica che cambia di più l’uso quotidiano.
-Eccezioni: domini esterni sempre consentiti, globali o per sito. Servono per SSO e login (accounts.google.com), CDN e simili, e risolvono anche il problema degli iframe di terze parti.
-Badge sull’icona con “ON” o il numero di click bloccati nella tab, tramite chrome.action.setBadgeText. Dai content script non puoi chiamarlo, quindi passa dal service worker con un messaggio, come già fatto per gli iframe.
-Marcatura visuale dei link esterni (bordo tratteggiato o cursor: not-allowed) con un MutationObserver che segue i link dinamici. Così lo sai prima di cliccare. Va fatto con cautela su pagine molto pesanti.
+Popup in the toolbar instead of the options page: on/off switch, button "add current site", and counter of blocked links. It is the change that makes the most difference in daily use.
+Exceptions: always-allowed external domains, global or per-site. They are needed for SSO and login (accounts.google.com), CDN, and similar cases, and they also solve the third-party iframe problem.
+Badge on the icon with "ON" or the number of blocked clicks in the tab, via chrome.action.setBadgeText. Content scripts cannot call it, so pass through the service worker with a message, as already done for iframes.
+Visual marking of external links (dashed border or cursor: not-allowed) with a MutationObserver that follows dynamic links. So you know before clicking. It must be done carefully on very heavy pages.
 
-Sicurezza e qualità dell’alert
-5. Dominio evidenziato in grassetto nell’URL, con avviso per hostname in punycode (xn--, omografi) e per URL con utente@host. È utile contro il phishing, e in un’email di phishing è il dato che conta.
-6. “Copia URL pulito”, che toglie utm_*, fbclid, gclid e simili, accanto al “Copia link” normale.
-7. Tema scuro per l’alert con prefers-color-scheme, e un focus trap sulla tastiera.
+Security and quality of the alert
 
-Copertura più robusta
-8. window.open e location.href da JavaScript: si risolve con un content script in "world": "MAIN" che avvolge window.open. In alternativa un controllo a livello di navigazione con webNavigation.onBeforeNavigate, che è il più difficile da aggirare ma richiede più lavoro per mostrare l’URL nell’alert.
-9. Form con action esterna: un listener submit in fase di cattura, con la stessa logica dei link.
+5. Highlight the domain in bold in the URL, with a warning for the punycode hostname (xn--, homoglyphs) and for the URL with user@host. It is useful against phishing, and in a phishing email it is the data that counts.
+6. "Copy clean URL", which removes utm_*, fbclid, gclid, and similar values, next to the normal "Copy link".
+7. Dark theme for the alert with prefers-color-scheme, and a focus trap on the keyboard.
 
-Gestione e distribuzione
-10. Import/export della lista in JSON, e chrome.storage.sync per averla uguale sui tuoi dispositivi.
-11. Lista di default precaricata in chrome.runtime.onInstalled, utile quando la passi agli amici.
-12. Log degli ultimi N link bloccati nella pagina opzioni, con copia rapida.
-13. Traduzioni (_locales) se gli amici non parlano italiano.
+More robust coverage
 
-Sulla distribuzione: con lo zip l’unica strada realistica è “estensione non pacchettizzata”. Un .crx fuori dallo store viene rifiutato da Chrome su Windows e macOS, salvo policy aziendali. Un repository Git con git pull e ricarica rende gli aggiornamenti più comodi.
+8. window.open and location.href from JavaScript: resolve with a content script in the "MAIN" world that wraps window.open. Alternatively, a navigation-level control with webNavigation.onBeforeNavigate, which is the hardest to bypass but requires more work to show the URL in the alert.
+9. Form with external action: submit listener in capture phase, with the same logic as links.
 
-Se vuoi, parto dalle prime tre (popup con aggiunta sito, eccezioni, badge) più il punto 5, e aggiungo logo e icone nello stesso giro.
+Management and distribution
+
+10. Import/export of the list in JSON, and chrome.storage.sync to keep it the same across devices.
+11. Default list preloaded in chrome.runtime.onInstalled, useful when passing it to friends.
+12. Log of the last N blocked links in the options page, with quick copy.
+13. Translations (_locales) if friends do not speak English.
+
+On distribution: with the ZIP file, the only realistic route is an "unpacked extension". An .crx outside the store is rejected by Chrome on Windows and macOS, unless there is a corporate policy. A Git repository with git pull and reload makes updates more comfortable.
+
+If you want, I can start with the first three (popup with add site, exceptions, badge) plus point 5, and add the logo and icons in the same batch.

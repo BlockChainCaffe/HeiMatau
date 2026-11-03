@@ -1,5 +1,5 @@
 (() => {
-  const U = globalThis.LinkGuardUrl;
+  const U = globalThis.HeiMatauUrl;
   const rows = document.getElementById('rows');
   const message = document.getElementById('msg');
   const testResult = document.getElementById('test-result');
@@ -194,7 +194,7 @@
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'link-guard-sites.json';
+    link.download = 'hei-matau-sites.json';
     document.body.appendChild(link);
     link.click();
     link.remove();

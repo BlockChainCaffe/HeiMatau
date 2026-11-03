@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Link Guard",
+    "name": "Hei Matau",
     "version": "2.0",
     "description": "Blocks external links on protected sites and shows the destination, clean link, and risk signals.",
     "permissions": ["storage"],
@@ -22,7 +22,7 @@
         "128": "icons/128.png"
     },
     "action": {
-        "default_title": "Link Guard: settings",
+        "default_title": "Hei Matau: settings",
         "default_icon": { "16": "icons/16.png", "32": "icons/32.png" }
     },
     "web_accessible_resources": [

@@ -727,5 +727,5 @@
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
-  root.LinkGuardUrl = api;
+  root.HeiMatauUrl = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

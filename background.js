@@ -2,7 +2,7 @@ try {
   importScripts('url-core.js');
 } catch (e) {}
 
-const U = self.LinkGuardUrl;
+const U = self.HeiMatauUrl;
 
 function migrateSites() {
   chrome.storage.local.get({ sites: null, domains: [] }, (result) => {

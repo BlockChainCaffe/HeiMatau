@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Link Guard test page</title>
+<title>Hei Matau test page</title>
 <style>
   :root {
     --bg: #f4f7fb;
@@ -452,19 +452,19 @@
 <body>
 <header class="hero">
   <div class="wrap">
-    <img class="logo" src="icons/logo.png" alt="Link Guard logo">
-    <p class="eyebrow">Link Guard</p>
+    <img class="logo" src="icons/logo.png" alt="Hei Matau logo">
+    <p class="eyebrow">Hei Matau</p>
     <h1>Blocked-link test page</h1>
     <p class="lede">
-      Open this page over HTTP, add the current host as a protected site in Link Guard, then click the links below.
+      Open this page over HTTP, add the current host as a protected site in Hei Matau, then click the links below.
       Every external link should be blocked and shown in the in-page popup. The internal controls should keep working without a popup.
     </p>
     <div class="setup">
       <div class="setup-row"><span>Current host</span><code id="current-host">loading</code></div>
       <div class="setup-row"><span>Current URL</span><code id="current-url">loading</code></div>
-      <div class="setup-row"><span>Next step</span><code>Add the current host above to Link Guard, then reload this page.</code></div>
+      <div class="setup-row"><span>Next step</span><code>Add the current host above to Hei Matau, then reload this page.</code></div>
       <p class="file-warning" id="file-warning" hidden>
-        This page was opened with file://. Link Guard only runs on HTTP and HTTPS pages.
+        This page was opened with file://. Hei Matau only runs on HTTP and HTTPS pages.
         Serve the project with <code>python3 -m http.server 8000</code> and open
         <code>http://127.0.0.1:8000/test-page.html</code> instead.
       </p>
@@ -490,7 +490,7 @@
   <section id="how-to-test">
     <div class="section-head">
       <h2>How to test</h2>
-      <p>Use more than a normal click. Link Guard is designed to intercept every common way of following a link.</p>
+      <p>Use more than a normal click. Hei Matau is designed to intercept every common way of following a link.</p>
     </div>
     <ul class="checklist">
       <li><strong>Normal click</strong> The popup should appear and the page must not navigate.</li>
@@ -518,7 +518,7 @@
         <span class="badge allowed">Allowed</span>
         <h3>Internal relative link</h3>
       </div>
-      <p class="why">A relative link stays on the same host. It should reload the page without a Link Guard popup.</p>
+      <p class="why">A relative link stays on the same host. It should reload the page without a Hei Matau popup.</p>
       <div class="links">
         <a class="test-link safe" href="?control=relative">?control=relative</a>
         <code class="raw">?control=relative</code>
@@ -771,7 +771,7 @@ Skeleton: google.example</code>
         <span class="badge blocked">Blocked</span>
         <h3>ASCII lookalike: paypa1</h3>
       </div>
-      <p class="why">The digit <strong>1</strong> replaces the letter <strong>l</strong>. This is not a Unicode homograph, so Link Guard will not add a special warning. The destination text in the popup is the defense.</p>
+      <p class="why">The digit <strong>1</strong> replaces the letter <strong>l</strong>. This is not a Unicode homograph, so Hei Matau will not add a special warning. The destination text in the popup is the defense.</p>
       <div class="compare">
         <div class="variant danger">
           <span class="badge blocked">Lookalike</span>
@@ -830,7 +830,7 @@ Skeleton: google.example</code>
         <span class="badge blocked">Blocked</span>
         <h3>Same name, different TLD</h3>
       </div>
-      <p class="why">The name matches, but the top-level domain is different. Link Guard blocks it as external and does not add a special warning, so the destination line is important.</p>
+      <p class="why">The name matches, but the top-level domain is different. Hei Matau blocks it as external and does not add a special warning, so the destination line is important.</p>
       <div class="compare">
         <div class="variant danger">
           <span class="badge blocked">Lookalike</span>
@@ -929,7 +929,7 @@ Actual href:  https://evil.example/login</code>
   <section id="protocols">
     <div class="section-head">
       <h2>Unsafe protocols</h2>
-      <p>These are not normal web destinations. Link Guard should block them and explain that the protocol is unsafe.</p>
+      <p>These are not normal web destinations. Hei Matau should block them and explain that the protocol is unsafe.</p>
     </div>
 
     <article class="case">
@@ -939,8 +939,8 @@ Actual href:  https://evil.example/login</code>
       </div>
       <p class="why">A <code>javascript:</code> URL runs code in the page instead of navigating to a website. It should never be opened from the popup.</p>
       <div class="links">
-        <a class="test-link danger" href="javascript:alert('Link Guard test')" target="_blank" rel="noopener noreferrer">javascript:alert('Link Guard test')</a>
-        <code class="raw">javascript:alert('Link Guard test')</code>
+        <a class="test-link danger" href="javascript:alert('Hei Matau test')" target="_blank" rel="noopener noreferrer">javascript:alert('Hei Matau test')</a>
+        <code class="raw">javascript:alert('Hei Matau test')</code>
       </div>
       <p class="expected"><strong>Expected:</strong> “Unsafe protocol” warning; no navigation.</p>
     </article>
@@ -952,8 +952,8 @@ Actual href:  https://evil.example/login</code>
       </div>
       <p class="why">A <code>data:</code> URL embeds its own content. It can be used to show a fake page without a normal domain.</p>
       <div class="links">
-        <a class="test-link danger" href="data:text/html,%3Ch1%3ELinkGuard%20test%3C%2Fh1%3E" target="_blank" rel="noopener noreferrer">data:text/html,%3Ch1%3ELinkGuard%20test%3C%2Fh1%3E</a>
-        <code class="raw">data:text/html,%3Ch1%3ELinkGuard%20test%3C%2Fh1%3E</code>
+        <a class="test-link danger" href="data:text/html,%3Ch1%3EHeiMatau%20test%3C%2Fh1%3E" target="_blank" rel="noopener noreferrer">data:text/html,%3Ch1%3EHeiMatau%20test%3C%2Fh1%3E</a>
+        <code class="raw">data:text/html,%3Ch1%3EHeiMatau%20test%3C%2Fh1%3E</code>
       </div>
       <p class="expected"><strong>Expected:</strong> “Unsafe protocol” warning; no navigation.</p>
     </article>
@@ -991,9 +991,9 @@ Method: POST</code>
 
 <footer>
   <div class="wrap">
-    <strong>Link Guard test page.</strong>
+    <strong>Hei Matau test page.</strong>
     Serve it over HTTP, add the current host to the protected list, and test each interaction.
-    The page itself does not change Link Guard settings.
+    The page itself does not change Hei Matau settings.
   </div>
 </footer>
 
@@ -1024,7 +1024,7 @@ Method: POST</code>
       controlResult.textContent =
         'Control result: the page loaded with ?control=' +
         params.get('control') +
-        ', so the internal link was allowed. No Link Guard popup appeared.';
+        ', so the internal link was allowed. No Hei Matau popup appeared.';
     }
   })();
 </script>
