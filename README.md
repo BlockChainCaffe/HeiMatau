@@ -1,5 +1,7 @@
 # Hei Matau
 
+![Hei Matau Logo](https://github.com/BlockChainCaffe/HeiMatau/blob/main/icons/logo.png)
+
 Hei Matau protects webmail and other sensitive sites from phishing links. You list the sites you want to protect. On those sites, any link that points outside the protected host is blocked and shown in a decision popup.
 
 The extension never opens the link. It only lets you inspect the destination, copy the original link, or copy a cleaned link.
