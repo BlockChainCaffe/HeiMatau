@@ -15,6 +15,8 @@ The extension never opens the link. It only lets you inspect the destination, co
 
 ## Behavior
 
+![Popup](https://github.com/BlockChainCaffe/HeiMatau/blob/main/img/ss_popup.png)
+
 - A protected site also covers all of its subdomains. Adding `mail.google.com` protects `mail.google.com` and any subdomain of it.
 - Links are checked when they would leave the protected host.
 - The popup actions are **Cancel**, **Copy link**, and **Copy clean link**.
@@ -45,6 +47,8 @@ When such a domain is detected, the popup shows a prominent warning with the Uni
 Legitimate internationalized domains are still shown with an informational note and their Unicode and punycode forms.
 
 ## Settings
+
+![Setting](https://github.com/BlockChainCaffe/HeiMatau/blob/main/img/ss_settings.png)
 
 The settings page supports:
 
