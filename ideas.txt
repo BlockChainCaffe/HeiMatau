@@ -1,0 +1,27 @@
+Miglioramenti che aggiungerei
+
+Più utili nell’uso quotidiano
+
+Popup nella toolbar al posto della pagina opzioni: interruttore on/off, pulsante “aggiungi il sito corrente” e un contatore dei link bloccati. È la modifica che cambia di più l’uso quotidiano.
+Eccezioni: domini esterni sempre consentiti, globali o per sito. Servono per SSO e login (accounts.google.com), CDN e simili, e risolvono anche il problema degli iframe di terze parti.
+Badge sull’icona con “ON” o il numero di click bloccati nella tab, tramite chrome.action.setBadgeText. Dai content script non puoi chiamarlo, quindi passa dal service worker con un messaggio, come già fatto per gli iframe.
+Marcatura visuale dei link esterni (bordo tratteggiato o cursor: not-allowed) con un MutationObserver che segue i link dinamici. Così lo sai prima di cliccare. Va fatto con cautela su pagine molto pesanti.
+
+Sicurezza e qualità dell’alert
+5. Dominio evidenziato in grassetto nell’URL, con avviso per hostname in punycode (xn--, omografi) e per URL con utente@host. È utile contro il phishing, e in un’email di phishing è il dato che conta.
+6. “Copia URL pulito”, che toglie utm_*, fbclid, gclid e simili, accanto al “Copia link” normale.
+7. Tema scuro per l’alert con prefers-color-scheme, e un focus trap sulla tastiera.
+
+Copertura più robusta
+8. window.open e location.href da JavaScript: si risolve con un content script in "world": "MAIN" che avvolge window.open. In alternativa un controllo a livello di navigazione con webNavigation.onBeforeNavigate, che è il più difficile da aggirare ma richiede più lavoro per mostrare l’URL nell’alert.
+9. Form con action esterna: un listener submit in fase di cattura, con la stessa logica dei link.
+
+Gestione e distribuzione
+10. Import/export della lista in JSON, e chrome.storage.sync per averla uguale sui tuoi dispositivi.
+11. Lista di default precaricata in chrome.runtime.onInstalled, utile quando la passi agli amici.
+12. Log degli ultimi N link bloccati nella pagina opzioni, con copia rapida.
+13. Traduzioni (_locales) se gli amici non parlano italiano.
+
+Sulla distribuzione: con lo zip l’unica strada realistica è “estensione non pacchettizzata”. Un .crx fuori dallo store viene rifiutato da Chrome su Windows e macOS, salvo policy aziendali. Un repository Git con git pull e ricarica rende gli aggiornamenti più comodi.
+
+Se vuoi, parto dalle prime tre (popup con aggiunta sito, eccezioni, badge) più il punto 5, e aggiungo logo e icone nello stesso giro.
