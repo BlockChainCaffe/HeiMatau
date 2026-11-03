@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Link Guard test page</title>
+<style>
+  :root {
+    --bg: #f4f7fb;
+    --panel: #ffffff;
+    --ink: #172033;
+    --muted: #5b6475;
+    --line: #dfe4ec;
+    --danger: #b42318;
+    --danger-bg: #fff1f0;
+    --warn: #8a4b00;
+    --warn-bg: #fff8e6;
+    --ok: #166534;
+    --ok-bg: #effcf3;
+    --accent: #1a73e8;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  a { color: #0b57d0; }
+
+  code, .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  .wrap {
+    width: min(1040px, 100%);
+    margin: 0 auto;
+  }
+
+  .hero {
+    padding: 42px 20px 34px;
+    color: #fff;
+    background: linear-gradient(135deg, #0a1e3c 0%, #123c74 60%, #1b5bb5 100%);
+  }
+
+  .logo {
+    display: block;
+    width: 72px;
+    height: 72px;
+    margin-bottom: 18px;
+    padding: 6px;
+    border-radius: 16px;
+    background: #fff;
+    object-fit: contain;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .28);
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: #a9c6f5;
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: .2rem 0 .5rem;
+    font-size: clamp(2rem, 5vw, 3.1rem);
+    line-height: 1.08;
+    letter-spacing: -.03em;
+  }
+
+  .lede {
+    max-width: 780px;
+    margin: 0;
+    color: #dbe7ff;
+    font-size: 1.05rem;
+  }
+
+  .setup {
+    display: grid;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, .08);
+  }
+
+  .setup-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: baseline;
+  }
+
+  .setup-row span {
+    min-width: 112px;
+    color: #b9cdf0;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .setup code {
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, .27);
+    color: #fff;
+    word-break: break-all;
+  }
+
+  .file-warning {
+    margin: 2px 0 0;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 220, 120, .55);
+    border-radius: 8px;
+    background: rgba(255, 214, 102, .14);
+    color: #ffe9a8;
+  }
+
+  .toc {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 255, 255, .96);
+    backdrop-filter: blur(8px);
+  }
+
+  .toc .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 20px;
+  }
+
+  .toc a {
+    padding: 4px 9px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: #334155;
+    font-size: .84rem;
+    text-decoration: none;
+  }
+
+  .toc a:hover {
+    border-color: #d8e4ff;
+    background: #eef4ff;
+    color: #0b57d0;
+  }
+
+  main {
+    padding: 26px 20px 64px;
+  }
+
+  section {
+    margin: 34px 0;
+    scroll-margin-top: 64px;
+  }
+
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.45rem;
+    letter-spacing: -.015em;
+  }
+
+  .section-head p {
+    max-width: 740px;
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .case {
+    margin: 14px 0;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
+  }
+
+  .case-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 6px;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.06rem;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .035em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .badge.blocked {
+    border: 1px solid #f3b6b0;
+    background: var(--danger-bg);
+    color: var(--danger);
+  }
+
+  .badge.allowed {
+    border: 1px solid #b7e4c7;
+    background: var(--ok-bg);
+    color: var(--ok);
+  }
+
+  .badge.info {
+    border: 1px solid #c7d8ff;
+    background: #eef4ff;
+    color: #0b57d0;
+  }
+
+  .why {
+    margin: 4px 0 12px;
+    color: #334155;
+  }
+
+  .links {
+    display: grid;
+    gap: 8px;
+  }
+
+  .test-link {
+    display: inline-block;
+    max-width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #c7d8ff;
+    border-radius: 9px;
+    background: #f3f7ff;
+    color: #0b57d0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .88rem;
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  .test-link:hover {
+    border-color: #9dbdff;
+    background: #e8f0ff;
+  }
+
+  .test-link.danger {
+    border-color: #f3b6b0;
+    background: #fff5f4;
+    color: #9f1d16;
+  }
+
+  .test-link.danger:hover {
+    background: #ffe9e7;
+  }
+
+  .test-link.safe {
+    border-color: #b7e4c7;
+    background: #f1fcf5;
+    color: var(--ok);
+  }
+
+  .test-link.safe:hover {
+    background: #e4f8eb;
+  }
+
+  .raw {
+    display: block;
+    margin: 0;
+    padding: 9px 11px;
+    border-radius: 8px;
+    background: #0f172a;
+    color: #dbeafe;
+    font: .77rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .expected {
+    margin: 12px 0 0;
+    padding: 10px 12px;
+    border-left: 3px solid #94a3b8;
+    background: #f8fafc;
+    color: #334155;
+    font-size: .9rem;
+  }
+
+  .expected strong { color: #0f172a; }
+
+  .compare {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .variant {
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fbfcfe;
+  }
+
+  .variant.danger {
+    border-color: #f3b6b0;
+    background: #fff7f6;
+  }
+
+  .variant.real {
+    border-color: #b7e4c7;
+    background: #f5fdf8;
+  }
+
+  .variant h4 {
+    margin: 7px 0 7px;
+    color: #475569;
+    font-size: .78rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+
+  .variant .raw { margin-top: 8px; }
+
+  .glyph {
+    padding: 0 1px;
+    border-bottom: 2px solid #d4a300;
+    border-radius: 2px;
+    background: #fff1a8;
+  }
+
+  mark {
+    padding: 0 2px;
+    border-radius: 2px;
+    background: #fff1a8;
+    color: inherit;
+  }
+
+  .note {
+    padding: 12px 14px;
+    border: 1px solid #c7d8ff;
+    border-radius: 10px;
+    background: #eef4ff;
+    color: #1e3a8a;
+  }
+
+  .note.warn {
+    border-color: #f0d48a;
+    background: var(--warn-bg);
+    color: var(--warn);
+  }
+
+  .note.danger {
+    border-color: #f3b6b0;
+    background: var(--danger-bg);
+    color: #8a1c16;
+  }
+
+  .checklist {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .checklist li {
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  .checklist strong { display: block; }
+
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-end;
+    margin-top: 10px;
+  }
+
+  label {
+    display: grid;
+    gap: 4px;
+    color: #475569;
+    font-size: .78rem;
+    font-weight: 600;
+  }
+
+  input {
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font: inherit;
+  }
+
+  button {
+    padding: 9px 14px;
+    border: 1px solid #f3b6b0;
+    border-radius: 8px;
+    background: #fff5f4;
+    color: #9f1d16;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  button:hover { background: #ffe9e7; }
+
+  footer {
+    padding: 24px 20px 40px;
+    border-top: 1px solid var(--line);
+    color: #64748b;
+  }
+
+  @media (max-width: 760px) {
+    .compare,
+    .checklist {
+      grid-template-columns: 1fr;
+    }
+
+    .hero { padding-top: 30px; }
+
+    .setup-row span { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <img class="logo" src="icons/logo.png" alt="Link Guard logo">
+    <p class="eyebrow">Link Guard</p>
+    <h1>Blocked-link test page</h1>
+    <p class="lede">
+      Open this page over HTTP, add the current host as a protected site in Link Guard, then click the links below.
+      Every external link should be blocked and shown in the in-page popup. The internal controls should keep working without a popup.
+    </p>
+    <div class="setup">
+      <div class="setup-row"><span>Current host</span><code id="current-host">loading</code></div>
+      <div class="setup-row"><span>Current URL</span><code id="current-url">loading</code></div>
+      <div class="setup-row"><span>Next step</span><code>Add the current host above to Link Guard, then reload this page.</code></div>
+      <p class="file-warning" id="file-warning" hidden>
+        This page was opened with file://. Link Guard only runs on HTTP and HTTPS pages.
+        Serve the project with <code>python3 -m http.server 8000</code> and open
+        <code>http://127.0.0.1:8000/test-page.html</code> instead.
+      </p>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Test sections">
+  <div class="wrap">
+    <a href="#how-to-test">How to test</a>
+    <a href="#controls">Controls</a>
+    <a href="#basic">Basic external links</a>
+    <a href="#redirects">Redirect wrappers</a>
+    <a href="#lookalikes">Similar-looking domains</a>
+    <a href="#suspicious">Suspicious URL forms</a>
+    <a href="#deception">Link text deception</a>
+    <a href="#protocols">Unsafe protocols</a>
+    <a href="#forms">Forms</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section id="how-to-test">
+    <div class="section-head">
+      <h2>How to test</h2>
+      <p>Use more than a normal click. Link Guard is designed to intercept every common way of following a link.</p>
+    </div>
+    <ul class="checklist">
+      <li><strong>Normal click</strong> The popup should appear and the page must not navigate.</li>
+      <li><strong>Middle click</strong> The popup should appear instead of opening a new tab.</li>
+      <li><strong>Ctrl/Cmd + click</strong> The popup should appear instead of opening a new tab.</li>
+      <li><strong>Keyboard Enter</strong> Focus a link, press Enter, and the popup should appear.</li>
+      <li><strong>Right click</strong> The popup should replace the normal context menu on an external link.</li>
+      <li><strong>Drag and drop</strong> Dragging an external link should be stopped and the popup shown.</li>
+    </ul>
+    <p class="note">
+      Close each popup with <strong>Cancel</strong> or Escape before testing the next link. The popup is modal, so the page behind it is intentionally inactive until it closes.
+      If a link opens normally, the current host is not configured as protected or the extension is not loaded.
+    </p>
+  </section>
+
+  <section id="controls">
+    <div class="section-head">
+      <h2>Control cases</h2>
+      <p>These links stay on the protected host and should be allowed. They prove that the extension is not blocking every link blindly.</p>
+    </div>
+    <p class="note" id="control-result" hidden></p>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge allowed">Allowed</span>
+        <h3>Internal relative link</h3>
+      </div>
+      <p class="why">A relative link stays on the same host. It should reload the page without a Link Guard popup.</p>
+      <div class="links">
+        <a class="test-link safe" href="?control=relative">?control=relative</a>
+        <code class="raw">?control=relative</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> the page reloads and shows a control message. No popup.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge allowed">Allowed</span>
+        <h3>Internal absolute link</h3>
+      </div>
+      <p class="why">This link uses the current origin explicitly. It is still the same host, so it should be allowed.</p>
+      <div class="links">
+        <a class="test-link safe" id="internal-absolute" href="?control=absolute">Internal absolute link</a>
+        <code class="raw" id="internal-absolute-code">set from the current page URL</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> the page reloads and shows a control message. No popup.</p>
+    </article>
+  </section>
+
+  <section id="basic">
+    <div class="section-head">
+      <h2>Basic external links</h2>
+      <p>These are ordinary external destinations. They are blocked because they leave the protected host, even when the destination itself is harmless.</p>
+    </div>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Normal external link</h3>
+      </div>
+      <p class="why">The simplest case: a link to another domain. The popup should show the destination and copy actions.</p>
+      <div class="links">
+        <a class="test-link" href="https://example.com/" target="_blank" rel="noopener noreferrer">https://example.com/</a>
+        <code class="raw">https://example.com/</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> “External link blocked”, destination <code>example.com</code>, no special warning.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>External link with tracking parameters</h3>
+      </div>
+      <p class="why">The clean-link action should remove known tracking parameters while keeping the real content parameter and fragment.</p>
+      <div class="links">
+        <a class="test-link" href="https://example.com/product?utm_source=email&amp;utm_medium=newsletter&amp;id=42&amp;fbclid=abc#details" target="_blank" rel="noopener noreferrer">https://example.com/product?utm_source=email&amp;utm_medium=newsletter&amp;id=42&amp;fbclid=abc#details</a>
+        <code class="raw">https://example.com/product?utm_source=email&amp;utm_medium=newsletter&amp;id=42&amp;fbclid=abc#details</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> the clean link should be <code>https://example.com/product?id=42#details</code>.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Unencrypted HTTP link</h3>
+      </div>
+      <p class="why">The destination is available over plain HTTP. The popup should add the “Unencrypted connection” warning.</p>
+      <div class="links">
+        <a class="test-link" href="http://example.com/" target="_blank" rel="noopener noreferrer">http://example.com/</a>
+        <code class="raw">http://example.com/</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> external-link popup with the HTTP warning chip.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>IP address instead of a domain</h3>
+      </div>
+      <p class="why">Users cannot judge an IP address as easily as a domain name. The popup should show the IP warning. This address is in the reserved TEST-NET-1 range, so it is not a real destination.</p>
+      <div class="links">
+        <a class="test-link" href="http://192.0.2.1/" target="_blank" rel="noopener noreferrer">http://192.0.2.1/</a>
+        <code class="raw">http://192.0.2.1/</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> external-link popup with the “IP address” warning chip.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Non-standard port</h3>
+      </div>
+      <p class="why">A familiar domain on an unusual port can be a different service. The popup should show the port warning.</p>
+      <div class="links">
+        <a class="test-link" href="https://example.com:8443/" target="_blank" rel="noopener noreferrer">https://example.com:8443/</a>
+        <code class="raw">https://example.com:8443/</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> external-link popup with the “Non-standard port” warning chip.</p>
+    </article>
+  </section>
+
+  <section id="redirects">
+    <div class="section-head">
+      <h2>Redirect wrappers</h2>
+      <p>Webmail often rewrites links through a redirect service. The extension should unwrap the real destination before deciding whether the link is external.</p>
+    </div>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Google/Gmail redirect wrapper</h3>
+      </div>
+      <p class="why">The visible href is on google.com, but the real destination is in the <code>q</code> parameter. The popup should show <code>evil.example</code>, not Google.</p>
+      <div class="links">
+        <a class="test-link" href="https://www.google.com/url?q=https%3A%2F%2Fevil.example%2Flogin%3Futm_source%3Demail&amp;sa=D&amp;source=gmail" target="_blank" rel="noopener noreferrer">Google wrapper to evil.example/login</a>
+        <code class="raw">https://www.google.com/url?q=https%3A%2F%2Fevil.example%2Flogin%3Futm_source%3Demail&amp;sa=D&amp;source=gmail</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> destination <code>evil.example</code>; clean link <code>https://evil.example/login</code>; original Google wrapper shown separately.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Double-encoded Google wrapper</h3>
+      </div>
+      <p class="why">The destination is encoded twice. The extension should decode it repeatedly and still find the real host.</p>
+      <div class="links">
+        <a class="test-link" href="https://www.google.com/url?q=https%253A%252F%252Fevil.example%252Fdouble" target="_blank" rel="noopener noreferrer">Double-encoded Google wrapper</a>
+        <code class="raw">https://www.google.com/url?q=https%253A%252F%252Fevil.example%252Fdouble</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> destination <code>evil.example</code>, path <code>/double</code>.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Outlook SafeLinks wrapper</h3>
+      </div>
+      <p class="why">Microsoft 365 rewrites links through SafeLinks. The extension should unwrap the <code>url</code> parameter and show the real destination.</p>
+      <div class="links">
+        <a class="test-link" href="https://nam12.safelinks.protection.outlook.com/?url=https%3A%2F%2Fevil.example%2Foutlook&amp;data=test" target="_blank" rel="noopener noreferrer">Outlook SafeLinks wrapper to evil.example/outlook</a>
+        <code class="raw">https://nam12.safelinks.protection.outlook.com/?url=https%3A%2F%2Fevil.example%2Foutlook&amp;data=test</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> destination <code>evil.example</code>, path <code>/outlook</code>.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Fake Google-like wrapper</h3>
+      </div>
+      <p class="why">A host that merely starts with “google” is not Google. The extension must not trust the <code>q</code> parameter here. The actual destination is <code>google.example</code>, not <code>evil.example</code>.</p>
+      <div class="links">
+        <a class="test-link danger" href="https://google.example/url?q=https%3A%2F%2Fevil.example%2Ffake" target="_blank" rel="noopener noreferrer">Lookalike wrapper: google.example</a>
+        <code class="raw">https://google.example/url?q=https%3A%2F%2Fevil.example%2Ffake</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> destination <code>google.example</code>. The embedded <code>evil.example</code> must not be treated as the destination.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Shortened link</h3>
+      </div>
+      <p class="why">The final destination is hidden behind a shortener. The extension should warn that the destination is unresolved and that the clean link may not be final.</p>
+      <div class="links">
+        <a class="test-link danger" href="https://bit.ly/linkguard-test-does-not-exist" target="_blank" rel="noopener noreferrer">https://bit.ly/linkguard-test-does-not-exist</a>
+        <code class="raw">https://bit.ly/linkguard-test-does-not-exist</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> “Shortened link” and “Destination not resolved” warnings.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Google wrapper with no destination</h3>
+      </div>
+      <p class="why">The link uses the Google redirect path but has no usable destination parameter. It should be blocked as unresolved rather than being treated as an internal Google link.</p>
+      <div class="links">
+        <a class="test-link danger" href="https://www.google.com/url?sa=D" target="_blank" rel="noopener noreferrer">https://www.google.com/url?sa=D</a>
+        <code class="raw">https://www.google.com/url?sa=D</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> “Destination not resolved” warning.</p>
+    </article>
+  </section>
+
+  <section id="lookalikes">
+    <div class="section-head">
+      <h2>Similar-looking domains</h2>
+      <p>These are the main phishing cases. Compare each fake domain with the real one. All external links are blocked, but the fake domains add a Unicode or lookalike warning.</p>
+    </div>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Cyrillic homograph: pаypal</h3>
+      </div>
+      <p class="why">The second character in <mark>pаypal</mark> is Cyrillic <strong>а</strong> (U+0430), not the Latin <strong>a</strong> (U+0061). They look identical in many fonts. The popup should show a red Unicode warning, the Unicode form, the punycode form, and the Latin lookalike.</p>
+      <div class="compare">
+        <div class="variant danger">
+          <span class="badge blocked">Lookalike</span>
+          <h4>Fake domain</h4>
+          <a class="test-link danger" href="https://p%D0%B0ypal.example/login" target="_blank" rel="noopener noreferrer">https://p<span class="glyph">а</span>ypal.example/login</a>
+          <code class="raw">Unicode:  https://pаypal.example/login
+Punycode: https://xn--pypal-4ve.example/login
+Skeleton: paypal.example</code>
+        </div>
+        <div class="variant real">
+          <span class="badge blocked">Real domain</span>
+          <h4>Legitimate PayPal</h4>
+          <a class="test-link" href="https://paypal.com/login" target="_blank" rel="noopener noreferrer">https://paypal.com/login</a>
+          <code class="raw">https://paypal.com/login</code>
+        </div>
+      </div>
+      <p class="expected"><strong>Expected:</strong> red “Warning: confusable Unicode characters” warning on the fake domain; no Unicode warning on the real domain.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Same fake PayPal domain in punycode</h3>
+      </div>
+      <p class="why">Browsers store the fake domain as punycode. This is the same destination as the previous case, written in the form the browser uses internally.</p>
+      <div class="links">
+        <a class="test-link danger" href="https://xn--pypal-4ve.example/login" target="_blank" rel="noopener noreferrer">https://xn--pypal-4ve.example/login</a>
+        <code class="raw">https://xn--pypal-4ve.example/login</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> the same Unicode homograph warning, with Unicode <code>pаypal.example</code> and punycode <code>xn--pypal-4ve.example</code>.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Greek homograph: gοοgle</h3>
+      </div>
+      <p class="why">The two “o” characters in <mark>gοοgle</mark> are Greek omicron (U+03BF), not Latin <strong>o</strong>. The destination looks like Google but is not Google.</p>
+      <div class="compare">
+        <div class="variant danger">
+          <span class="badge blocked">Lookalike</span>
+          <h4>Fake domain</h4>
+          <a class="test-link danger" href="https://g%CE%BF%CE%BFgle.example/" target="_blank" rel="noopener noreferrer">https://g<span class="glyph">ο</span><span class="glyph">ο</span>gle.example/</a>
+          <code class="raw">Unicode:  https://gοοgle.example/
+Punycode: https://xn--ggle-0nda.example/
+Skeleton: google.example</code>
+        </div>
+        <div class="variant real">
+          <span class="badge blocked">Real domain</span>
+          <h4>Legitimate Google</h4>
+          <a class="test-link" href="https://google.com/" target="_blank" rel="noopener noreferrer">https://google.com/</a>
+          <code class="raw">https://google.com/</code>
+        </div>
+      </div>
+      <p class="expected"><strong>Expected:</strong> red Unicode warning, scripts Latin and Greek, lookalike <code>google.example</code>.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>ASCII lookalike: paypa1</h3>
+      </div>
+      <p class="why">The digit <strong>1</strong> replaces the letter <strong>l</strong>. This is not a Unicode homograph, so Link Guard will not add a special warning. The destination text in the popup is the defense.</p>
+      <div class="compare">
+        <div class="variant danger">
+          <span class="badge blocked">Lookalike</span>
+          <h4>Fake domain</h4>
+          <a class="test-link danger" href="https://paypa1.example/" target="_blank" rel="noopener noreferrer">https://paypa<span class="glyph">1</span>.example/</a>
+          <code class="raw">https://paypa1.example/</code>
+        </div>
+        <div class="variant real">
+          <span class="badge blocked">Real domain</span>
+          <h4>Legitimate PayPal</h4>
+          <a class="test-link" href="https://paypal.com/" target="_blank" rel="noopener noreferrer">https://paypal.com/</a>
+          <code class="raw">https://paypal.com/</code>
+        </div>
+      </div>
+      <p class="expected"><strong>Expected:</strong> external-link popup with destination <code>paypa1.example</code>; no Unicode warning.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Subdomain deception</h3>
+      </div>
+      <p class="why">The real destination is the rightmost part of the host. Here the host is a subdomain of <code>evil.example</code>; <code>paypal.com</code> is only part of the subdomain name.</p>
+      <div class="compare">
+        <div class="variant danger">
+          <span class="badge blocked">Lookalike</span>
+          <h4>Fake domain</h4>
+          <a class="test-link danger" href="https://paypal.com.evil.example/login" target="_blank" rel="noopener noreferrer"><span class="glyph">paypal.com</span>.evil.example/login</a>
+          <code class="raw">https://paypal.com.evil.example/login</code>
+        </div>
+        <div class="variant real">
+          <span class="badge blocked">Real domain</span>
+          <h4>Legitimate PayPal</h4>
+          <a class="test-link" href="https://paypal.com/login" target="_blank" rel="noopener noreferrer">https://paypal.com/login</a>
+          <code class="raw">https://paypal.com/login</code>
+        </div>
+      </div>
+      <p class="expected"><strong>Expected:</strong> destination <code>paypal.com.evil.example</code>; the real registrable domain is <code>evil.example</code>.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Userinfo deception</h3>
+      </div>
+      <p class="why">Everything before the <strong>@</strong> is a username, not the host. The browser actually navigates to <code>evil.example</code>. The popup should show the real destination and the “Credentials in URL” signal.</p>
+      <div class="links">
+        <a class="test-link danger" href="https://paypal.com@evil.example/login" target="_blank" rel="noopener noreferrer">https://paypal.com@<span class="glyph">evil.example</span>/login</a>
+        <code class="raw">https://paypal.com@evil.example/login</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> destination <code>evil.example</code>, plus the userinfo warning. Do not read “paypal.com” as the host.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Same name, different TLD</h3>
+      </div>
+      <p class="why">The name matches, but the top-level domain is different. Link Guard blocks it as external and does not add a special warning, so the destination line is important.</p>
+      <div class="compare">
+        <div class="variant danger">
+          <span class="badge blocked">Lookalike</span>
+          <h4>Fake domain</h4>
+          <a class="test-link danger" href="https://paypal.example/" target="_blank" rel="noopener noreferrer">https://paypal<span class="glyph">.example</span>/</a>
+          <code class="raw">https://paypal.example/</code>
+        </div>
+        <div class="variant real">
+          <span class="badge blocked">Real domain</span>
+          <h4>Legitimate PayPal</h4>
+          <a class="test-link" href="https://paypal.com/" target="_blank" rel="noopener noreferrer">https://paypal.com/</a>
+          <code class="raw">https://paypal.com/</code>
+        </div>
+      </div>
+      <p class="expected"><strong>Expected:</strong> destination <code>paypal.example</code>; no Unicode warning.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Legitimate internationalized domain</h3>
+      </div>
+      <p class="why">Not every non-ASCII domain is an attack. This legitimate IDN should get a yellow informational note, not the red homograph warning.</p>
+      <div class="compare">
+        <div class="variant real">
+          <span class="badge info">Internationalized</span>
+          <h4>Unicode form</h4>
+          <a class="test-link" href="https://m%C3%BCnchen.de/" target="_blank" rel="noopener noreferrer">https://münchen.de/</a>
+          <code class="raw">https://münchen.de/</code>
+        </div>
+        <div class="variant real">
+          <span class="badge info">Internationalized</span>
+          <h4>Punycode form</h4>
+          <a class="test-link" href="https://xn--mnchen-3ya.de/" target="_blank" rel="noopener noreferrer">https://xn--mnchen-3ya.de/</a>
+          <code class="raw">https://xn--mnchen-3ya.de/</code>
+        </div>
+      </div>
+      <p class="expected"><strong>Expected:</strong> yellow “Internationalized domain” note with Unicode and punycode; no red homograph warning.</p>
+    </article>
+  </section>
+
+  <section id="suspicious">
+    <div class="section-head">
+      <h2>Suspicious URL forms</h2>
+      <p>These are external links that should also show additional warning chips in the popup.</p>
+    </div>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Many subdomains</h3>
+      </div>
+      <p class="why">A long chain of subdomains can push the real domain out of view. The popup should show the “Many subdomains” warning.</p>
+      <div class="links">
+        <a class="test-link danger" href="https://www.paypal.com.security-check.example/login" target="_blank" rel="noopener noreferrer">https://www.paypal.com.security-check.example/login</a>
+        <code class="raw">https://www.paypal.com.security-check.example/login</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> external-link popup with the many-subdomains warning.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Encoded characters in the host</h3>
+      </div>
+      <p class="why">Percent-encoded host characters should be normalized before the destination is shown. This fake PayPal host uses a percent-encoded Cyrillic character.</p>
+      <div class="links">
+        <a class="test-link danger" href="https://p%D0%B0ypal.example/encoded" target="_blank" rel="noopener noreferrer">https://p%D0%B0ypal.example/encoded</a>
+        <code class="raw">https://p%D0%B0ypal.example/encoded</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> the popup shows the decoded Unicode host and the homograph warning.</p>
+    </article>
+  </section>
+
+  <section id="deception">
+    <div class="section-head">
+      <h2>Link text deception</h2>
+      <p>The visible text can say one thing while the actual link points somewhere else. The popup should compare the text with the destination.</p>
+    </div>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Text says PayPal, href goes to evil.example</h3>
+      </div>
+      <p class="why">The link text contains a different domain from the actual destination. The popup should show the “Link text differs from destination” warning.</p>
+      <div class="links">
+        <a class="test-link danger" href="https://evil.example/login" target="_blank" rel="noopener noreferrer">https://paypal.com/login</a>
+        <code class="raw">Visible text: https://paypal.com/login
+Actual href:  https://evil.example/login</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> destination <code>evil.example</code> and the text-mismatch warning.</p>
+    </article>
+  </section>
+
+  <section id="protocols">
+    <div class="section-head">
+      <h2>Unsafe protocols</h2>
+      <p>These are not normal web destinations. Link Guard should block them and explain that the protocol is unsafe.</p>
+    </div>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>javascript: link</h3>
+      </div>
+      <p class="why">A <code>javascript:</code> URL runs code in the page instead of navigating to a website. It should never be opened from the popup.</p>
+      <div class="links">
+        <a class="test-link danger" href="javascript:alert('Link Guard test')" target="_blank" rel="noopener noreferrer">javascript:alert('Link Guard test')</a>
+        <code class="raw">javascript:alert('Link Guard test')</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> “Unsafe protocol” warning; no navigation.</p>
+    </article>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>data: link</h3>
+      </div>
+      <p class="why">A <code>data:</code> URL embeds its own content. It can be used to show a fake page without a normal domain.</p>
+      <div class="links">
+        <a class="test-link danger" href="data:text/html,%3Ch1%3ELinkGuard%20test%3C%2Fh1%3E" target="_blank" rel="noopener noreferrer">data:text/html,%3Ch1%3ELinkGuard%20test%3C%2Fh1%3E</a>
+        <code class="raw">data:text/html,%3Ch1%3ELinkGuard%20test%3C%2Fh1%3E</code>
+      </div>
+      <p class="expected"><strong>Expected:</strong> “Unsafe protocol” warning; no navigation.</p>
+    </article>
+  </section>
+
+  <section id="forms">
+    <div class="section-head">
+      <h2>Forms</h2>
+      <p>Forms are blocked by the same protection. An external action should open the “Form submission blocked” popup instead of sending data.</p>
+    </div>
+
+    <article class="case">
+      <div class="case-head">
+        <span class="badge blocked">Blocked</span>
+        <h3>Form with an external action</h3>
+      </div>
+      <p class="why">This form would post the email address to <code>evil.example</code>. The popup should identify it as a form and show the action URL.</p>
+      <form action="https://evil.example/collect" method="post" target="_blank">
+        <label>Email address
+          <input name="email" type="email" value="test@example.com" autocomplete="off">
+        </label>
+        <button type="submit">Submit test form</button>
+      </form>
+      <code class="raw">Action: https://evil.example/collect
+Method: POST</code>
+      <p class="expected"><strong>Expected:</strong> “Form submission blocked”, action <code>https://evil.example/collect</code>, and a note that the form was not sent.</p>
+    </article>
+  </section>
+
+  <p class="note warn">
+    Reminder: the fake destinations use the reserved <code>.example</code> domain wherever possible, so accidental navigation cannot reach a real phishing site.
+    The real <code>paypal.com</code>, <code>google.com</code>, and <code>münchen.de</code> links are included only for comparison and are still blocked because they are external.
+  </p>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Link Guard test page.</strong>
+    Serve it over HTTP, add the current host to the protected list, and test each interaction.
+    The page itself does not change Link Guard settings.
+  </div>
+</footer>
+
+<script>
+  (() => {
+    const host = location.hostname;
+    const currentHost = document.getElementById('current-host');
+    const currentUrl = document.getElementById('current-url');
+    const fileWarning = document.getElementById('file-warning');
+    const internalAbsolute = document.getElementById('internal-absolute');
+    const internalAbsoluteCode = document.getElementById('internal-absolute-code');
+    const controlResult = document.getElementById('control-result');
+
+    currentHost.textContent = host || '(none)';
+    currentUrl.textContent = location.href;
+
+    if (location.protocol === 'file:') fileWarning.hidden = false;
+
+    if (host) {
+      const absolute = location.origin + location.pathname + '?control=absolute';
+      internalAbsolute.href = absolute;
+      internalAbsoluteCode.textContent = absolute;
+    }
+
+    const params = new URLSearchParams(location.search);
+    if (params.has('control')) {
+      controlResult.hidden = false;
+      controlResult.textContent =
+        'Control result: the page loaded with ?control=' +
+        params.get('control') +
+        ', so the internal link was allowed. No Link Guard popup appeared.';
+    }
+  })();
+</script>
+</body>
+</html>

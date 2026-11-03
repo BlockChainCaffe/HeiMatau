@@ -1,0 +1,9 @@
+{
+  "name": "link-guard",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check url-core.js && node --check content.js && node --check options.js && node --check background.js"
+  }
+}
