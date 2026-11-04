@@ -2,16 +2,64 @@
 
 ![Hei Matau Logo](https://github.com/BlockChainCaffe/HeiMatau/blob/main/icons/logo.png)
 
-Hei Matau protects webmail and other sensitive sites from phishing links. You list the sites you want to protect. On those sites, any link that points outside the protected host is blocked and shown in a decision popup.
+Hei Matau **protects webmail and other sensitive sites from phishing links**. You list the sites you want to protect. On those sites, any link that points outside the protected host is blocked and shown in a decision popup.
 
-The extension never opens the link. It only lets you inspect the destination, copy the original link, or copy a cleaned link.
+The extension **never opens the link**. It only lets you inspect the destination, copy the original link, or copy a cleaned link.
+
+---
+
+## Table of Contents
+
+- [Why the name](#why-the-name)
+- [Installation](#installation)
+- [Behavior](#behavior)
+- [Redirects and Gmail](#redirects-and-gmail)
+- [Unicode and homograph warning](#unicode-and-homograph-warning)
+- [Settings](#settings)
+- [Limitations](#limitations)
+- [Testing](#testing)
+  - [Manual browser test](#manual-browser-test)
+  - [Automated checks](#automated-checks)
+
+---
+
+## Rationale
+
+I needed a way to mitigate phishing attacs, but could not find one that did what I needed the way I wanted it. Plus almost none of them was **opensource**, so I did not trust them and preferred to make my own.
+
+
+According to ![Wikipedia](http://en.wikipedia.org/wiki/Hei_matau) 
+> a hei matau is a bone or greenstone carving in the shape of a highly stylised fish hook. They represent good luck and safe travel across water.
+
+Since the project deals with phishing, it seemd a good fit...
+
+
+## Supported Browsers
+
+This estension _should_ work with the following Chromium based browsers:
+
+- Google Chrome
+- Chromium
+- Brave
+- Microsoft Edge
+- Opera and Opera GX
+- Vivaldi
+- Arc
+- Yandex Browser
+
+> **Does not work on Firefox**
+
+Please let me have some feedback it Hei Matau does not work on your browser or works on an unlisted one
 
 ## Installation
 
-1. Extract the ZIP file.
-2. Open `brave://extensions` or `chrome://extensions` and enable **Developer mode**.
-3. Click **Load unpacked** and select the `Hei Matau` folder.
-4. Click the extension icon to open the settings and add your protected sites.
+For the time beying the extention is not in any repository. If you want to use it just follow these steps:
+
+1. Download and Extract the ZIP file.
+2. Inspect the code
+3. Open `brave://extensions` or `chrome://extensions` and enable **Developer mode**.
+4. Click **Load unpacked** and select the `Hei Matau` folder.
+5. Click the extension icon to open the settings and add your protected sites.
 
 ## Behavior
 
