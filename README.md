@@ -29,7 +29,7 @@ I needed a way to mitigate phishing attacs, but could not find one that did what
 
 
 According to [Wikipedia](http://en.wikipedia.org/wiki/Hei_matau) 
-> Ahei matau is a bone or greenstone carving in the shape of a highly stylised fish hook. They represent good luck and safe travel across water.
+> A hei matau is a bone or greenstone carving in the shape of a highly stylised fish hook. They represent good luck and safe travel across water.
 
 Since the project deals with phishing, it seemd a good fit...
 
