@@ -28,7 +28,7 @@ The extension **never opens the link**. It only lets you inspect the destination
 I needed a way to mitigate phishing attacs, but could not find one that did what I needed the way I wanted it. Plus almost none of them was **opensource**, so I did not trust them and preferred to make my own.
 
 
-According to ![Wikipedia](http://en.wikipedia.org/wiki/Hei_matau) 
+According to [Wikipedia](http://en.wikipedia.org/wiki/Hei_matau) 
 > a hei matau is a bone or greenstone carving in the shape of a highly stylised fish hook. They represent good luck and safe travel across water.
 
 Since the project deals with phishing, it seemd a good fit...
