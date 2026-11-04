@@ -10,7 +10,8 @@ The extension **never opens the link**. It only lets you inspect the destination
 
 ## Table of Contents
 
-- [Why the name](#why-the-name)
+- [Rationale](#rationale)
+- [Supported Browsers](#supported-browsers)
 - [Installation](#installation)
 - [Behavior](#behavior)
 - [Redirects and Gmail](#redirects-and-gmail)
