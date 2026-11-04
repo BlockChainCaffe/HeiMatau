@@ -44,6 +44,10 @@ Hostnames that use internationalized characters are stored by browsers as punyco
 
 When such a domain is detected, the popup shows a prominent warning with the Unicode form, the punycode form, and a rough Latin lookalike. This helps expose domains such as `pаypal.com`, where the `а` is Cyrillic.
 
+
+![Popup](https://github.com/BlockChainCaffe/HeiMatau/blob/main/img/ss_popup_2.png)
+
+
 Legitimate internationalized domains are still shown with an informational note and their Unicode and punycode forms.
 
 ## Settings
