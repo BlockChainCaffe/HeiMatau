@@ -71,6 +71,7 @@ For the time beying the extention is not in any repository. If you want to use i
 - The popup actions are **Cancel**, **Copy link**, and **Copy clean link**.
   - **Copy link** copies the original `href`.
   - **Copy clean link** follows known redirect wrappers and removes known tracking parameters.
+  - When the destination raises a danger-level warning, the copy buttons are hidden and only **Cancel** is available. The URLs remain visible and selectable for manual inspection.
 - Normal clicks, middle-clicks, Ctrl/Cmd-clicks, Enter activation, form submissions, right-click menus on external links, and drag-and-drop on external links are all intercepted.
 - Iframes relay their intercepted links to the top frame, where the popup is shown.
 

@@ -428,26 +428,35 @@
         'The link uses a redirect or shortener that could not be resolved. The clean link may not be final.'));
     }
 
-    const buttons = el('div', 'btns');
-    const copyButton = el('button', 'primary', 'Copy link');
-    copyButton.type = 'button';
-    copyButton.dataset.label = 'Copy link';
-    copyButton.addEventListener('click', () => copyText(data.originalUrl, copyButton));
+    const signals = Array.isArray(data.signals) ? data.signals : [];
+    const dangerous = signals.some((signal) => signal && signal.level === 'danger');
 
-    const cleanButton = el('button', 'clean', 'Copy clean link');
-    cleanButton.type = 'button';
-    cleanButton.dataset.label = 'Copy clean link';
-    cleanButton.addEventListener('click', () => copyText(data.cleanUrl || data.finalUrl || data.originalUrl, cleanButton));
+    const buttons = el('div', 'btns');
+    if (!dangerous) {
+      const copyButton = el('button', 'primary', 'Copy link');
+      copyButton.type = 'button';
+      copyButton.dataset.label = 'Copy link';
+      copyButton.addEventListener('click', () => copyText(data.originalUrl, copyButton));
+
+      const cleanButton = el('button', 'clean', 'Copy clean link');
+      cleanButton.type = 'button';
+      cleanButton.dataset.label = 'Copy clean link';
+      cleanButton.addEventListener('click', () => copyText(data.cleanUrl || data.finalUrl || data.originalUrl, cleanButton));
+
+      buttons.append(copyButton, cleanButton);
+    }
 
     const cancelButton = el('button', '', 'Cancel');
     cancelButton.type = 'button';
     cancelButton.addEventListener('click', closePopup);
 
-    buttons.append(copyButton, cleanButton, cancelButton);
+    buttons.append(cancelButton);
     box.appendChild(buttons);
-    box.appendChild(el('p', 'foot', data.isForm
-      ? 'The form will not be submitted. Copy the action only if you trust the destination.'
-      : 'The link will not open automatically. Paste it into the browser only if you trust the destination.'));
+    box.appendChild(el('p', 'foot', dangerous
+      ? 'This destination shows a security warning. Copy actions are disabled.'
+      : (data.isForm
+        ? 'The form will not be submitted. Copy the action only if you trust the destination.'
+        : 'The link will not open automatically. Paste it into the browser only if you trust the destination.')));
 
     wrap.appendChild(box);
     dialog.appendChild(wrap);
