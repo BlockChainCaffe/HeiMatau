@@ -1,6 +1,6 @@
 # Hei Matau
 
-![Hei Matau Logo](https://github.com/BlockChainCaffe/HeiMatau/blob/main/icons/logo.png)
+![Hei Matau Logo](icons/logo.png)
 
 Hei Matau **protects webmail and other sensitive sites from phishing links**. You list the sites you want to protect. On those sites, any link that points outside the protected host is blocked and shown in a decision popup.
 
@@ -64,7 +64,7 @@ For the time beying the extention is not in any repository. If you want to use i
 
 ## Behavior
 
-![Popup](https://github.com/BlockChainCaffe/HeiMatau/blob/main/img/ss_popup.png)
+![Popup](img/ss_popup.png)
 
 - A protected site also covers all of its subdomains. Adding `mail.google.com` protects `mail.google.com` and any subdomain of it.
 - Links are checked when they would leave the protected host.
@@ -94,14 +94,14 @@ Hostnames that use internationalized characters are stored by browsers as punyco
 When such a domain is detected, the popup shows a prominent warning with the Unicode form, the punycode form, and a rough Latin lookalike. This helps expose domains such as `pаypal.com`, where the `а` is Cyrillic.
 
 
-![Popup](https://github.com/BlockChainCaffe/HeiMatau/blob/main/img/ss_popup_2.png)
+![Popup](img/ss_popup_2.png)
 
 
 Legitimate internationalized domains are still shown with an informational note and their Unicode and punycode forms.
 
 ## Settings
 
-![Setting](https://github.com/BlockChainCaffe/HeiMatau/blob/main/img/ss_settings.png)
+![Setting](img/ss_settings.png)
 
 - Click on the extension icon, then 
 - Click `Add site` and add the protected domains one by one. Repeat for each domain
